@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Design Lounge — Events for the NYC Design Community</title>
+<meta name="description" content="Design Lounge hosts sophisticated, friendly events for the NYC design community — happy hours, coworking days, hackathons, and speed networking." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Pinyon+Script&family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --navy: #1d2a4d;
+    --navy-deep: #16213f;
+    --cream: #f3ecdb;
+    --cream-soft: #ece2c8;
+    --ivory: #faf6ea;
+    --gold: #e7d9b4;
+    --line: rgba(243, 236, 219, 0.35);
+    --line-dark: rgba(29, 42, 77, 0.25);
+    --serif: "Playfair Display", "Georgia", serif;
+    --logo-serif: "Cormorant Garamond", "Georgia", serif;
+    --script: "Pinyon Script", cursive;
+    --body: "Lora", "Georgia", serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--body);
+    background: var(--navy);
+    color: var(--cream);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* handmade paper grain over everything */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 240px 240px;
+    opacity: 0.06;
+    mix-blend-mode: overlay;
+  }
+
+  ::selection { background: var(--gold); color: var(--navy); }
+
+  h1, h2, h3 { font-family: var(--serif); font-weight: 600; line-height: 1.1; }
+
+  .script { font-family: var(--script); font-weight: 400; }
+
+  .container { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+
+  .eyebrow {
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+  }
+
+  /* ---------- Slide-style section reveals ---------- */
+  section, header.hero { scroll-margin-top: 58px; }
+  header.hero { scroll-margin-top: 0; }
+  .reveal {
+    opacity: 0;
+    transform: translateY(34px);
+    transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
+
+  /* ---------- Nav ---------- */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(29, 42, 77, 0.88);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 32px;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--cream);
+  }
+  .logo svg { display: block; }
+  .logo-name {
+    font-family: var(--logo-serif);
+    font-size: 23px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+  }
+  .nav-links { display: flex; gap: 30px; align-items: center; }
+  .nav-links a {
+    color: var(--cream);
+    text-decoration: none;
+    font-family: var(--serif);
+    font-size: 13.5px;
+    letter-spacing: 0.06em;
+    opacity: 0.85;
+    transition: opacity 0.2s;
+  }
+  .nav-links a:hover { opacity: 1; }
+  .nav-cta {
+    border: 1px solid var(--cream);
+    border-radius: 999px;
+    padding: 7px 19px !important;
+    opacity: 1 !important;
+    transition: background 0.25s, color 0.25s !important;
+  }
+  .nav-cta:hover { background: var(--cream); color: var(--navy); }
+
+  @media (max-width: 860px) {
+    .nav-links a:not(.nav-cta) { display: none; }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding: 110px 0 70px;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 40px;
+    align-items: center;
+  }
+  .hero h1 {
+    font-size: clamp(40px, 5.5vw, 68px);
+    font-weight: 600;
+    color: var(--ivory);
+  }
+  .hero h1 .script {
+    display: block;
+    font-size: clamp(48px, 6.5vw, 82px);
+    color: var(--gold);
+    margin-top: 4px;
+    line-height: 1;
+  }
+  .hero p.lede {
+    margin-top: 22px;
+    max-width: 430px;
+    font-size: 15.5px;
+    opacity: 0.9;
+  }
+  .hero .eyebrow { color: var(--cream); margin-bottom: 18px; }
+
+  .date-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    border: 1px solid var(--cream);
+    border-radius: 999px;
+    padding: 11px 26px;
+    margin-top: 34px;
+    font-family: var(--serif);
+    font-size: 15.5px;
+    letter-spacing: 0.08em;
+    color: var(--ivory);
+    text-decoration: none;
+    transition: background 0.25s, color 0.25s;
+  }
+  .date-pill .rule { width: 56px; height: 1px; background: var(--cream); transition: background 0.25s; }
+  .date-pill:hover { background: var(--cream); color: var(--navy); }
+  .date-pill:hover .rule { background: var(--navy); }
+
+  .hero-art { position: relative; text-align: center; }
+  .hero-art img.cocktails {
+    width: 100%;
+    max-width: 430px;
+    height: auto;
+    display: inline-block;
+  }
+
+  .sparkle { position: absolute; color: var(--ivory); }
+  .sparkle svg { width: 100%; height: auto; display: block; }
+  .sp-1 { width: 56px; top: 12%; left: 46%; }
+  .sp-2 { width: 90px; bottom: 6%; left: -2%; }
+  .sp-3 { width: 38px; top: 22%; right: 3%; }
+
+  @media (max-width: 920px) {
+    .hero { padding: 96px 0 56px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 28px; }
+    .hero-art img.cocktails { max-width: 280px; }
+    .sp-1 { left: 78%; }
+  }
+
+  /* ---------- Section scaffolding ---------- */
+  section { padding: 88px 0; }
+  .section-head { max-width: 600px; margin-bottom: 48px; }
+  .section-head .script-kick {
+    font-family: var(--script);
+    font-size: 30px;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .section-head h2 { font-size: clamp(30px, 3.4vw, 42px); }
+  .section-head p { margin-top: 14px; font-size: 15px; opacity: 0.88; }
+
+  .on-cream { background: var(--cream); color: var(--navy); }
+  .on-cream .script-kick { color: #8a6d3b; }
+  .on-cream .section-head p { opacity: 0.8; }
+
+  /* ---------- Events (tabs) ---------- */
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 40px;
+  }
+  .tab-btn {
+    font-family: var(--serif);
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    background: transparent;
+    color: var(--navy);
+    border: 1px solid var(--navy);
+    border-radius: 999px;
+    padding: 10px 22px;
+    cursor: pointer;
+    transition: background 0.25s, color 0.25s;
+  }
+  .tab-btn:hover { background: rgba(29, 42, 77, 0.08); }
+  .tab-btn.active { background: var(--navy); color: var(--cream); }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: grid; }
+  .tab-panel {
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 54px;
+    align-items: center;
+    animation: fadeUp 0.45s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .tab-art {
+    background: var(--navy);
+    border-radius: 16px;
+    padding: 38px 28px;
+    text-align: center;
+  }
+  .tab-art svg { width: 100%; max-width: 220px; height: auto; }
+  .tab-copy .script-kick {
+    font-family: var(--script);
+    font-size: 27px;
+    color: #8a6d3b;
+    display: block;
+  }
+  .tab-copy h3 { font-size: 27px; margin: 4px 0 14px; }
+  .tab-copy p { font-size: 15px; opacity: 0.85; max-width: 460px; }
+  .tab-copy ul {
+    list-style: none;
+    margin-top: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .tab-copy li {
+    padding-left: 24px;
+    position: relative;
+    font-size: 14px;
+  }
+  .tab-copy li::before {
+    content: "✦";
+    position: absolute;
+    left: 0;
+    color: #8a6d3b;
+  }
+
+  @media (max-width: 860px) {
+    .tab-panel { grid-template-columns: 1fr; gap: 32px; }
+  }
+
+  /* ---------- About ---------- */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .about-copy p { font-size: 15.5px; opacity: 0.9; margin-bottom: 18px; max-width: 510px; }
+  .about-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    margin-top: 38px;
+  }
+  .stat { padding: 22px 8px; text-align: center; }
+  .stat + .stat { border-left: 1px solid var(--line); }
+  .stat .num { font-family: var(--serif); font-size: 31px; font-weight: 700; color: var(--ivory); display: block; }
+  .stat .label { font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.75; }
+  .about-art { text-align: center; position: relative; }
+  .about-art img {
+    width: 100%;
+    max-width: 330px;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    display: block;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 860px) {
+    .about-grid { grid-template-columns: 1fr; gap: 44px; }
+    .about-art .sparkle { display: none; }
+  }
+
+  /* ---------- Upcoming ---------- */
+  .event-list { border-top: 1px solid var(--line-dark); }
+  .event-row {
+    display: grid;
+    grid-template-columns: 145px 1fr auto;
+    gap: 28px;
+    align-items: center;
+    padding: 26px 8px;
+    border-bottom: 1px solid var(--line-dark);
+    text-decoration: none;
+    color: var(--navy);
+    transition: background 0.25s;
+  }
+  .event-row:hover { background: rgba(29, 42, 77, 0.05); }
+  .event-date {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+  .event-date small { display: block; font-weight: 400; font-size: 12px; letter-spacing: 0.12em; opacity: 0.7; margin-top: 2px; }
+  .event-info h3 { font-size: 19px; margin-bottom: 3px; }
+  .event-info p { font-size: 13.5px; opacity: 0.75; }
+  .event-tag {
+    font-family: var(--serif);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    border: 1px solid var(--navy);
+    border-radius: 999px;
+    padding: 7px 15px;
+    white-space: nowrap;
+  }
+  @media (max-width: 720px) {
+    .event-row { grid-template-columns: 1fr; gap: 8px; }
+    .event-tag { justify-self: start; }
+  }
+
+  /* ---------- Gallery ---------- */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .g-photo { margin: 0; }
+  .g-photo .frame {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+    height: 252px;
+  }
+  .g-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.45s ease;
+  }
+  .g-photo:hover img { transform: scale(1.04); }
+  .g-photo figcaption { padding: 12px 4px 0; }
+  .g-photo .cap { font-family: var(--serif); font-size: 15px; letter-spacing: 0.04em; display: block; }
+  .g-photo .sub { font-size: 11.5px; opacity: 0.65; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 3px; display: block; }
+  .span2 { grid-column: span 2; }
+  .span3 { grid-column: 1 / -1; }
+  .span3 .frame { height: 330px; }
+  @media (max-width: 860px) {
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    .g-photo .frame { height: 200px; }
+    .span3 .frame { height: 250px; }
+  }
+  @media (max-width: 560px) {
+    .gallery-grid { grid-template-columns: 1fr; }
+    .span2, .span3 { grid-column: auto; }
+  }
+
+  /* ---------- Testimonials carousel ---------- */
+  .carousel { overflow: hidden; }
+  .quote-track {
+    display: flex;
+    gap: 22px;
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+  }
+  .quote-card {
+    flex: 0 0 calc((100% - 44px) / 3);
+    border: 1px solid var(--line-dark);
+    border-radius: 14px;
+    padding: 28px 26px;
+    background: var(--ivory);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .quote-card .mark {
+    font-family: var(--script);
+    font-size: 50px;
+    line-height: 0.5;
+    color: #8a6d3b;
+    height: 20px;
+  }
+  .quote-card p { font-size: 14px; font-style: italic; flex: 1; }
+  .quote-card .who { font-family: var(--serif); font-weight: 600; font-size: 13.5px; }
+  .quote-card .who small { display: block; font-family: var(--body); font-weight: 400; opacity: 0.65; letter-spacing: 0.08em; text-transform: uppercase; font-size: 10.5px; margin-top: 3px; }
+  .carousel-dots { display: flex; gap: 8px; justify-content: center; margin-top: 30px; }
+  .carousel-dots button {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    border: 1px solid var(--navy);
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.25s;
+  }
+  .carousel-dots button.active { background: var(--navy); }
+  @media (max-width: 860px) {
+    .quote-card { flex: 0 0 100%; }
+  }
+
+  /* ---------- CTA band + footer ---------- */
+  .cta-band { text-align: center; position: relative; overflow: hidden; }
+  .cta-band h2 { font-size: clamp(32px, 4vw, 48px); color: var(--ivory); }
+  .cta-band .script { display: block; color: var(--gold); font-size: clamp(40px, 5vw, 62px); margin-top: 4px; }
+  .cta-band p { margin: 18px auto 0; max-width: 400px; font-size: 15px; opacity: 0.88; }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 38px 0;
+  }
+  .foot-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 18px;
+  }
+  footer .logo-name { font-size: 19px; }
+  .foot-links { display: flex; gap: 24px; }
+  .foot-links a { color: var(--cream); opacity: 0.75; text-decoration: none; font-size: 13px; letter-spacing: 0.06em; }
+  .foot-links a:hover { opacity: 1; }
+  .foot-note { font-size: 12px; opacity: 0.55; width: 100%; }
+</style>
+</head>
+<body>
+
+<!-- ============ SVG defs (shared) ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <pattern id="stipple" width="7" height="7" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.1" fill="currentColor" opacity="0.9"/>
+      <circle cx="5.5" cy="5.5" r="0.9" fill="currentColor" opacity="0.7"/>
+    </pattern>
+    <pattern id="stipple-fine" width="4.5" height="4.5" patternUnits="userSpaceOnUse">
+      <circle cx="1.4" cy="1.4" r="0.75" fill="currentColor" opacity="0.95"/>
+      <circle cx="3.4" cy="3.6" r="0.6" fill="currentColor" opacity="0.7"/>
+    </pattern>
+    <!-- hand-drawn six-point sparkle -->
+    <symbol id="spark" viewBox="0 0 100 100">
+      <path fill="currentColor" d="M50 2 L57 36 L86 14 L63 44 L98 50 L63 56 L86 86 L57 64 L50 98 L43 64 L14 86 L37 56 L2 50 L37 44 L14 14 L43 36 Z"/>
+    </symbol>
+    <!-- hand-illustrated martini glass with stippled shading -->
+    <symbol id="martini" viewBox="0 0 48 56" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9.5 12.5 C18 15 30 15 38.5 12.5 C33.5 18.5 28.5 23.5 24.3 27.5 C20 23.5 14.5 18.5 9.5 12.5 Z" fill="url(#stipple-fine)" stroke="none"/>
+      <path d="M5 7.5 C17.5 10.6 30.5 10.6 43 7.5"/>
+      <path d="M5 7.5 C11 15.5 18.2 22.8 24.3 28.6 L24.3 46"/>
+      <path d="M43 7.5 C37 15.5 30.4 22.8 24.3 28.6"/>
+      <path d="M14.5 47.6 C20.5 46 28 46 33.5 47.6"/>
+      <circle cx="19.5" cy="14.8" r="3.1" fill="currentColor" stroke="none"/>
+      <path d="M19.5 11.5 L26.5 5"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="logo" href="#top" aria-label="Design Lounge home">
+      <svg width="27" height="32" style="color:var(--cream)"><use href="#martini"/></svg>
+      <span class="logo-name">Design Lounge</span>
+    </a>
+    <div class="nav-links">
+      <a href="#events">Events</a>
+      <a href="#about">About</a>
+      <a href="#upcoming">Upcoming</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#voices">Voices</a>
+      <a class="nav-cta" href="https://www.meetup.com/designlounge/" target="_blank" rel="noopener">Join us</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="top">
+  <span class="sparkle sp-1"><svg><use href="#spark"/></svg></span>
+  <span class="sparkle sp-2"><svg><use href="#spark"/></svg></span>
+  <span class="sparkle sp-3"><svg><use href="#spark"/></svg></span>
+  <div class="container hero-grid">
+    <div>
+      <p class="eyebrow">Design Lounge NYC</p>
+      <h1>
+        Where designers
+        <span class="script">come together</span>
+      </h1>
+      <p class="lede">
+        Happy hours, coworking days, hackathons, and speed networking for New York's
+        UX, UI, and product design community. Pull up a chair — the first hello is on us.
+      </p>
+      <a class="date-pill" href="#upcoming">
+        Next event <span class="rule"></span> 07.23.25 · 6.30pm
+      </a>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <img class="cocktails" src="images/hero-cocktails.png" alt="" />
+    </div>
+  </div>
+</header>
+
+<!-- ============ EVENTS / TABS ============ -->
+<section class="on-cream" id="events">
+  <div class="container">
+    <div class="section-head">
+      <span class="script-kick">what we do</span>
+      <h2>Four ways to gather</h2>
+      <p>Every Design Lounge event is built around the same idea: good company, low pressure, and conversations that actually go somewhere.</p>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Event types">
+      <button class="tab-btn active" role="tab" aria-selected="true" data-tab="drinks">Drinks &amp; Designers</button>
+      <button class="tab-btn" role="tab" aria-selected="false" data-tab="cowork">Designers Cowork</button>
+      <button class="tab-btn" role="tab" aria-selected="false" data-tab="hack">Designers Hack</button>
+      <button class="tab-btn" role="tab" aria-selected="false" data-tab="speed">Speed Networking</button>
+    </div>
+
+    <div class="tab-panel active" id="panel-drinks" role="tabpanel">
+      <div class="tab-art" aria-hidden="true">
+        <svg viewBox="0 0 200 200" fill="none" stroke="var(--cream)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="color:var(--cream)">
+          <path d="M40 50 L120 58 L84 104 L80 150"/>
+          <path d="M40 50 c26 -8 56 -6 80 8"/>
+          <path d="M46 60 L112 66 L84 100" fill="url(#stipple)" stroke="none"/>
+          <path d="M56 154 c16 -6 34 -4 48 2"/>
+          <circle cx="148" cy="120" r="30" fill="url(#stipple)"/>
+          <circle cx="148" cy="120" r="30"/>
+          <path d="M148 96 v48 M124 120 h48"/>
+          <path d="M30 24 l5 12 12 4 -12 5 -5 12 -4 -12 -12 -5 12 -4 z" fill="var(--cream)" stroke="none"/>
+        </svg>
+      </div>
+      <div class="tab-copy">
+        <span class="script-kick">social mixers</span>
+        <h3>Drinks &amp; Designers</h3>
+        <p>Our signature happy hour. Cocktails, sunset views, and a room full of UX, UI, and product designers ready to talk shop — or anything but. Gentle icebreakers help the introverts in (we see you).</p>
+        <ul>
+          <li>Casual evening mixers at NYC's loveliest bars</li>
+          <li>Designers, design leaders &amp; friendly recruiters</li>
+          <li>No name tags, no pitches — just good conversation</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="panel-cowork" role="tabpanel">
+      <div class="tab-art" aria-hidden="true">
+        <svg viewBox="0 0 200 200" fill="none" stroke="var(--cream)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="color:var(--cream)">
+          <rect x="36" y="56" width="96" height="64" rx="4" fill="url(#stipple)"/>
+          <rect x="36" y="56" width="96" height="64" rx="4"/>
+          <path d="M28 128 h112 l8 14 H22 z"/>
+          <path d="M148 96 c10 -2 18 4 18 14 c0 12 -10 18 -18 16 m0 -30 v34" />
+          <path d="M158 84 c2 -8 10 -10 14 -6"/>
+          <path d="M52 74 h36 m-36 14 h56 m-56 14 h44"/>
+          <path d="M168 40 l4 10 10 3 -10 4 -4 10 -3 -10 -10 -4 10 -3 z" fill="var(--cream)" stroke="none"/>
+        </svg>
+      </div>
+      <div class="tab-copy">
+        <span class="script-kick">coworking days</span>
+        <h3>Designers Cowork</h3>
+        <p>Bring your laptop and your latest project. We take over a bright, comfortable space for a day of heads-down work, side-by-side critique, and very good coffee.</p>
+        <ul>
+          <li>Quiet focus blocks with optional crit circles</li>
+          <li>Portfolio feedback from working designers</li>
+          <li>A standing antidote to working-from-home alone</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="panel-hack" role="tabpanel">
+      <div class="tab-art" aria-hidden="true">
+        <svg viewBox="0 0 200 200" fill="none" stroke="var(--cream)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="color:var(--cream)">
+          <path d="M100 28 l14 36 38 3 -29 25 9 37 -32 -20 -32 20 9 -37 -29 -25 38 -3 z" fill="url(#stipple)"/>
+          <path d="M100 28 l14 36 38 3 -29 25 9 37 -32 -20 -32 20 9 -37 -29 -25 38 -3 z"/>
+          <path d="M60 158 c26 10 54 10 80 0"/>
+          <path d="M70 172 c20 6 40 6 60 0"/>
+          <path d="M36 36 l4 10 10 3 -10 4 -4 10 -3 -10 -10 -4 10 -3 z" fill="var(--cream)" stroke="none"/>
+        </svg>
+      </div>
+      <div class="tab-copy">
+        <span class="script-kick">immersive days</span>
+        <h3>Designers Hack</h3>
+        <p>One day, one brief, small teams, big swings. Our hackathon days pair designers across disciplines to concept, prototype, and present — with crits from senior design leaders to close it out.</p>
+        <ul>
+          <li>Full-day immersive design sprints</li>
+          <li>Teams matched across UX, UI, brand &amp; motion</li>
+          <li>Demos, feedback, and a celebratory toast</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="panel-speed" role="tabpanel">
+      <div class="tab-art" aria-hidden="true">
+        <svg viewBox="0 0 200 200" fill="none" stroke="var(--cream)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="color:var(--cream)">
+          <circle cx="100" cy="100" r="56" fill="url(#stipple)"/>
+          <circle cx="100" cy="100" r="56"/>
+          <path d="M100 68 v32 l22 14"/>
+          <path d="M100 36 v-12 m-14 12 h28"/>
+          <path d="M158 52 l6 -8 m-122 8 l-6 -8"/>
+          <path d="M166 150 l4 10 10 3 -10 4 -4 10 -3 -10 -10 -4 10 -3 z" fill="var(--cream)" stroke="none"/>
+        </svg>
+      </div>
+      <div class="tab-copy">
+        <span class="script-kick">fast friends</span>
+        <h3>Speed Networking</h3>
+        <p>Like speed dating, but for your design network. Short, structured rounds of one-on-one conversation — every bell means a new face, a new portfolio, a new connection worth keeping.</p>
+        <ul>
+          <li>Timed rounds, fresh conversation prompts</li>
+          <li>Meet 10+ designers in a single evening</li>
+          <li>Swap contacts, follow up over coffee later</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section id="about">
+  <div class="container about-grid">
+    <div class="about-copy">
+      <div class="section-head" style="margin-bottom:28px">
+        <span class="script-kick">about us</span>
+        <h2>A lounge, not a lecture</h2>
+      </div>
+      <p>Design Lounge is an event group for New York's design community — the UX researchers, product designers, brand thinkers, and pixel-pushers who make this city's screens worth looking at.</p>
+      <p>We believe the best career moves start as casual conversations. So we make rooms that feel like a friend's living room: warm, unhurried, and a little bit fancy. Come for the cocktails, stay for the people.</p>
+      <div class="about-stats">
+        <div class="stat"><span class="num">3k+</span><span class="label">Members</span></div>
+        <div class="stat"><span class="num">60+</span><span class="label">Events hosted</span></div>
+        <div class="stat"><span class="num">1</span><span class="label">Great city</span></div>
+      </div>
+    </div>
+    <div class="about-art">
+      <span class="sparkle" style="width:46px; top:-20px; right:8%"><svg><use href="#spark"/></svg></span>
+      <img src="images/about-group.jpg" alt="Design Lounge members gathered for a group photo at a summer social" />
+    </div>
+  </div>
+</section>
+
+<!-- ============ UPCOMING ============ -->
+<section class="on-cream" id="upcoming">
+  <div class="container">
+    <div class="section-head">
+      <span class="script-kick">save the date</span>
+      <h2>Upcoming events</h2>
+      <p>RSVP on Meetup — spots go quickly, especially when there's a sunset view involved.</p>
+    </div>
+    <div class="event-list">
+      <a class="event-row" href="https://www.meetup.com/designlounge/events/308852627/" target="_blank" rel="noopener">
+        <div class="event-date">07.23.25<small>Wed · 6:30 PM</small></div>
+        <div class="event-info">
+          <h3>NYC Drinks + Designers Happy Hour</h3>
+          <p>Bar Hugo at Hotel Hugo · 525 Greenwich St · Cocktails, sunset views &amp; easy icebreakers</p>
+        </div>
+        <span class="event-tag">Social mixer</span>
+      </a>
+      <a class="event-row" href="https://www.meetup.com/designlounge/events/" target="_blank" rel="noopener">
+        <div class="event-date">08.09.25<small>Sat · 10:00 AM</small></div>
+        <div class="event-info">
+          <h3>Designers Cowork: Summer Studio Day</h3>
+          <p>SoHo · A full day of focused work, crit circles &amp; cold brew</p>
+        </div>
+        <span class="event-tag">Coworking</span>
+      </a>
+      <a class="event-row" href="https://www.meetup.com/designlounge/events/" target="_blank" rel="noopener">
+        <div class="event-date">08.27.25<small>Wed · 6:00 PM</small></div>
+        <div class="event-info">
+          <h3>Speed Networking: 12 Designers, 12 Rounds</h3>
+          <p>Midtown · Timed rounds, fresh prompts, and follow-up coffee plans</p>
+        </div>
+        <span class="event-tag">Networking</span>
+      </a>
+      <a class="event-row" href="https://www.meetup.com/designlounge/events/" target="_blank" rel="noopener">
+        <div class="event-date">09.13.25<small>Sat · 9:30 AM</small></div>
+        <div class="event-info">
+          <h3>Designers Hack: One-Day Design Sprint</h3>
+          <p>Brooklyn · One brief, small teams, big swings — demos &amp; a toast to finish</p>
+        </div>
+        <span class="event-tag">Hackathon</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GALLERY ============ -->
+<section id="gallery">
+  <div class="container">
+    <div class="section-head">
+      <span class="script-kick">scenes from the lounge</span>
+      <h2>Gallery</h2>
+      <p>A few snapshots from recent evenings around the city.</p>
+    </div>
+    <div class="gallery-grid">
+      <figure class="g-photo span2">
+        <div class="frame"><img src="images/gallery-crowd.jpg" alt="A packed room of designers talking over drinks under warm lighting" /></div>
+        <figcaption><span class="cap">Full house, first round</span><span class="sub">Drinks &amp; Designers</span></figcaption>
+      </figure>
+      <figure class="g-photo">
+        <div class="frame"><img src="images/gallery-barhugo.jpg" alt="Designers chatting at the bar at Bar Hugo under glowing pendant lights" /></div>
+        <figcaption><span class="cap">Golden hour at Bar Hugo</span><span class="sub">Drinks &amp; Designers · Hudson Sq</span></figcaption>
+      </figure>
+      <figure class="g-photo">
+        <div class="frame"><img src="images/gallery-nametags.jpg" alt="Smiling attendees wearing name tags and holding drinks mid-conversation" /></div>
+        <figcaption><span class="cap">Name tags &amp; nightcaps</span><span class="sub">Speed Networking</span></figcaption>
+      </figure>
+      <figure class="g-photo span2">
+        <div class="frame"><img src="images/gallery-door.jpg" alt="Groups of designers mingling by the entrance beneath a fiddle-leaf fig" /></div>
+        <figcaption><span class="cap">New faces by the door</span><span class="sub">Drinks &amp; Designers</span></figcaption>
+      </figure>
+      <figure class="g-photo span3">
+        <div class="frame"><img src="images/gallery-group.jpg" alt="A big group photo of Design Lounge members gathered behind the bar" /></div>
+        <figcaption><span class="cap">The family photo</span><span class="sub">Summer social</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section class="on-cream" id="voices">
+  <div class="container">
+    <div class="section-head">
+      <span class="script-kick">kind words</span>
+      <h2>What people are saying</h2>
+    </div>
+    <div class="carousel" aria-label="Testimonials carousel">
+      <div class="quote-track">
+        <div class="quote-card">
+          <span class="mark">“</span>
+          <p>I came for one drink and left with three coffee chats and a freelance gig. The icebreakers are genuinely clever — even my fellow introverts were chatting by round two.</p>
+          <span class="who">Maya R.<small>Product Designer · Brooklyn</small></span>
+        </div>
+        <div class="quote-card">
+          <span class="mark">“</span>
+          <p>The cowork days got me through my portfolio refresh. There's something about sitting next to other designers that makes you actually finish things.</p>
+          <span class="who">Daniel K.<small>UX Designer · Manhattan</small></span>
+        </div>
+        <div class="quote-card">
+          <span class="mark">“</span>
+          <p>Most networking events feel transactional. Design Lounge feels like being welcomed into a club you didn't know you were already part of.</p>
+          <span class="who">Priya S.<small>Design Lead · Queens</small></span>
+        </div>
+        <div class="quote-card">
+          <span class="mark">“</span>
+          <p>I've hired two designers I met at Design Lounge events. No job board gives you what an hour of real conversation does.</p>
+          <span class="who">Jordan M.<small>Design Director · Manhattan</small></span>
+        </div>
+        <div class="quote-card">
+          <span class="mark">“</span>
+          <p>Speed networking sounded terrifying. It ended up being the most fun I've had at a professional event — twelve rounds, twelve genuinely interesting people.</p>
+          <span class="who">Alex T.<small>UX Researcher · Brooklyn</small></span>
+        </div>
+        <div class="quote-card">
+          <span class="mark">“</span>
+          <p>The hack day pushed me out of my brand-design bubble. My team had a motion designer and a researcher, and our prototype was better for it.</p>
+          <span class="who">Sofia L.<small>Brand Designer · Manhattan</small></span>
+        </div>
+        <div class="quote-card">
+          <span class="mark">“</span>
+          <p>I moved to NYC knowing exactly zero designers. Six months of Design Lounge later, my group chat disagrees about which bar to meet at. A good problem.</p>
+          <span class="who">Wes C.<small>Product Designer · Jersey City</small></span>
+        </div>
+        <div class="quote-card">
+          <span class="mark">“</span>
+          <p>As a recruiter, I love that these events are about people first. The conversations are warmer, and the matches I make actually stick.</p>
+          <span class="who">Nina P.<small>Design Recruiter · Manhattan</small></span>
+        </div>
+      </div>
+      <div class="carousel-dots" role="tablist" aria-label="Testimonial pages"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA + FOOTER ============ -->
+<section class="cta-band">
+  <span class="sparkle" style="width:54px; top:18%; left:14%"><svg><use href="#spark"/></svg></span>
+  <span class="sparkle" style="width:38px; bottom:14%; right:13%"><svg><use href="#spark"/></svg></span>
+  <div class="container">
+    <h2>Pull up a chair,<span class="script">we saved you a seat</span></h2>
+    <p>Join 3,000+ NYC designers on Meetup and never miss an invitation.</p>
+    <a class="date-pill" href="https://www.meetup.com/designlounge/" target="_blank" rel="noopener">
+      Join Design Lounge <span class="rule"></span> it's free
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="container foot-inner">
+    <a class="logo" href="#top">
+      <svg width="22" height="26" style="color:var(--cream)"><use href="#martini"/></svg>
+      <span class="logo-name">Design Lounge</span>
+    </a>
+    <div class="foot-links">
+      <a href="https://www.meetup.com/designlounge/" target="_blank" rel="noopener">Meetup</a>
+      <a href="#events">Events</a>
+      <a href="#about">About</a>
+      <a href="#gallery">Gallery</a>
+    </div>
+    <p class="foot-note">© 2025 Design Lounge NYC · Made with love (and a decent pour) in New York City</p>
+  </div>
+</footer>
+
+<script>
+  // ----- Event-type tabs -----
+  const tabs = document.querySelectorAll(".tab-btn");
+  const panels = document.querySelectorAll(".tab-panel");
+  tabs.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      tabs.forEach((b) => { b.classList.remove("active"); b.setAttribute("aria-selected", "false"); });
+      panels.forEach((p) => p.classList.remove("active"));
+      btn.classList.add("active");
+      btn.setAttribute("aria-selected", "true");
+      document.getElementById("panel-" + btn.dataset.tab).classList.add("active");
+    });
+  });
+
+  // ----- Slide-in section reveals -----
+  const revealTargets = document.querySelectorAll(".hero-grid, section > .container, footer .foot-inner");
+  revealTargets.forEach((el) => el.classList.add("reveal"));
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("in");
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealTargets.forEach((el) => io.observe(el));
+
+  // ----- Testimonials carousel -----
+  const carousel = document.querySelector(".carousel");
+  const track = carousel.querySelector(".quote-track");
+  const cards = track.children;
+  const dotsWrap = carousel.querySelector(".carousel-dots");
+  let qi = 0;
+
+  const visibleCount = () => (window.innerWidth > 860 ? 3 : 1);
+  const maxIndex = () => cards.length - visibleCount();
+
+  function buildDots() {
+    dotsWrap.innerHTML = "";
+    for (let i = 0; i <= maxIndex(); i++) {
+      const dot = document.createElement("button");
+      dot.setAttribute("aria-label", "Go to testimonial " + (i + 1));
+      dot.addEventListener("click", () => { qi = i; render(); restartTimer(); });
+      dotsWrap.appendChild(dot);
+    }
+  }
+
+  function render() {
+    const gap = parseFloat(getComputedStyle(track).gap) || 0;
+    const step = cards[0].getBoundingClientRect().width + gap;
+    track.style.transform = "translateX(" + (-qi * step) + "px)";
+    [...dotsWrap.children].forEach((d, i) => d.classList.toggle("active", i === qi));
+  }
+
+  function advance() {
+    qi = qi >= maxIndex() ? 0 : qi + 1;
+    render();
+  }
+
+  let timer = setInterval(advance, 4000);
+  function restartTimer() { clearInterval(timer); timer = setInterval(advance, 4000); }
+  carousel.addEventListener("mouseenter", () => clearInterval(timer));
+  carousel.addEventListener("mouseleave", restartTimer);
+  window.addEventListener("resize", () => { qi = Math.min(qi, maxIndex()); buildDots(); render(); });
+
+  buildDots();
+  render();
+</script>
+</body>
+</html>

@@ -238,6 +238,42 @@ body.cursor-on a, body.cursor-on button{ cursor:none; }
 .btn.ghost:hover{ color:var(--ink); border-color:var(--gold); }
 .btn-inner{ display:inline-flex; align-items:center; gap:10px; pointer-events:none; }
 
+/* hero "next event" ticket CTA */
+.btn-next{
+  display:inline-flex; align-items:center; gap:16px;
+  width:fit-content; max-width:100%;
+  padding:12px 24px;
+  border:1px solid var(--gold);
+  border-radius:999px;
+  color:var(--ink); background:var(--gold);
+  position:relative; overflow:hidden;
+  transition:color .4s var(--ease), border-color .4s;
+}
+.btn-next::before{
+  content:""; position:absolute; inset:0; z-index:-1;
+  background:var(--ivory);
+  transform:translateY(101%); transition:transform .5s var(--ease);
+}
+.btn-next:hover::before{ transform:translateY(0); }
+.btn-next > *{ pointer-events:none; }
+.bn-label{
+  font-family:var(--ui); font-weight:500;
+  font-size:10.5px; letter-spacing:0.28em; text-transform:uppercase;
+  color:var(--ink); white-space:nowrap;
+}
+.bn-line{
+  width:56px; height:1px;
+  background:currentColor;
+  opacity:0.5;
+}
+.bn-date{
+  font-family:var(--display); font-weight:500; font-size:17px;
+  letter-spacing:0.01em; white-space:nowrap;
+  display:inline-flex; align-items:center; gap:8px;
+}
+.bn-arrow{ font-size:13px; transition:transform .4s var(--ease); }
+.btn-next:hover .bn-arrow{ transform:translate(2px,-2px); }
+
 .nav-toggle{
   display:none; width:42px; height:42px; border:1px solid var(--line);
   border-radius:50%; background:transparent; position:relative; cursor:pointer;
@@ -299,12 +335,15 @@ body.menu-open .menu-foot{ opacity:1; }
 }
 .hero-inner{ position:relative; z-index:3; }
 .hero-eyebrow{ margin-bottom:26px; }
+.eb-mob{ display:none; }
 .hero h1{
   font-size:clamp(42px, 6vw, 94px);
   font-weight:500;
   color:var(--ivory);
 }
 .hero h1 .line{ display:block; overflow:hidden; padding-bottom:0.04em; }
+/* script line has deep descenders (the 'g' in "together") — extend the reveal mask so it isn't clipped, then pull layout back up so spacing is unchanged */
+.hero h1 .line:nth-of-type(2){ padding-bottom:0.3em; margin-bottom:-0.26em; }
 .hero h1 .line > span{ display:block; }
 /* ---- Hero intro: hidden from first paint, revealed via .ready class (CSS-driven, no RAF dependency) ---- */
 .js .hero h1 [data-hline]{ transform:translateY(115%); }
@@ -357,6 +396,9 @@ body.menu-open .menu-foot{ opacity:1; }
 .scroll-cue .track::after{ content:""; position:absolute; left:0; top:0; height:100%; width:12px; background:var(--gold); animation:cue 1.8s var(--ease) infinite; }
 @keyframes cue{ 0%{ transform:translateX(-14px);} 60%,100%{ transform:translateX(36px);} }
 
+@media (min-width:1025px){
+  .hero-art img{ opacity:0.5; }
+}
 @media (max-width:1024px){
   .hero-art{ width:46vw; right:-6%; opacity:0.55; }
 }
@@ -366,6 +408,10 @@ body.menu-open .menu-foot{ opacity:1; }
   .hero h1{ font-size:clamp(44px,13vw,66px); }
   .hero-lede{ font-size:15px; }
   .scroll-cue{ display:none; }
+  .eb-desk{ display:none; }
+  .eb-mob{ display:inline; }
+  .hero-meta .meta-venue{ display:none; }
+  .cta-spark{ display:none; }
 }
 
 /* ============================================================
@@ -462,6 +508,7 @@ section{ position:relative; padding:120px 0; }
 .stat{ padding:26px 6px 6px; }
 .stat + .stat{ border-left:1px solid var(--line); padding-left:24px; }
 .stat .num{ font-family:var(--display); font-size:clamp(38px,5vw,58px); font-weight:600; color:var(--gold); display:block; line-height:1; }
+.stat .num .num-suf.star{ font-size:0.5em; vertical-align:0.32em; }
 .stat .lbl{ font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); margin-top:10px; display:block; }
 
 .about-art{ position:relative; }
@@ -567,7 +614,6 @@ section{ position:relative; padding:120px 0; }
 .v-track{ display:flex; gap:20px; width:max-content; }
 .v-row-a .v-track{ animation:vslide 48s linear infinite; }
 .v-row-b .v-track{ animation:vslide 56s linear infinite reverse; }
-.voices:hover .v-track{ animation-play-state:paused; }
 @keyframes vslide{ to{ transform:translateX(-50%); } }
 @media (prefers-reduced-motion: reduce){ .v-track{ animation:none !important; } }
 .v-card{
@@ -699,7 +745,6 @@ footer{ padding:80px 0 40px; border-top:1px solid var(--line-soft); }
       <span class="brand-name">Design Lounge</span>
     </a>
     <div class="nav-links">
-      <a class="nav-link" href="#events">Events</a>
       <a class="nav-link" href="#about">About</a>
       <a class="nav-link" href="#upcoming">Calendar</a>
       <a class="nav-link" href="#gallery">Gallery</a>
@@ -712,12 +757,11 @@ footer{ padding:80px 0 40px; border-top:1px solid var(--line-soft); }
 
 <!-- ===================== MOBILE MENU ===================== -->
 <div class="menu" id="menu">
-  <a href="#events"><span class="idx">01</span>Events</a>
-  <a href="#about"><span class="idx">02</span>About</a>
-  <a href="#upcoming"><span class="idx">03</span>Calendar</a>
-  <a href="#gallery"><span class="idx">04</span>Gallery</a>
-  <a href="#voices"><span class="idx">05</span>Voices</a>
-  <a href="https://www.meetup.com/designlounge/" target="_blank" rel="noopener"><span class="idx">06</span>Join us</a>
+  <a href="#about"><span class="idx">01</span>About</a>
+  <a href="#upcoming"><span class="idx">02</span>Calendar</a>
+  <a href="#gallery"><span class="idx">03</span>Gallery</a>
+  <a href="#voices"><span class="idx">04</span>Voices</a>
+  <a href="https://www.meetup.com/designlounge/" target="_blank" rel="noopener"><span class="idx">05</span>Join us</a>
   <p class="menu-foot">Made with love (and a decent pour) in New York City</p>
 </div>
 
@@ -729,25 +773,28 @@ footer{ padding:80px 0 40px; border-top:1px solid var(--line-soft); }
     <img src="images/hero-cocktails.png" alt="" />
   </div>
   <div class="container hero-inner">
-    <p class="eyebrow hero-eyebrow" data-animate="up">Design Lounge · New York City · Est. 2024</p>
+    <p class="eyebrow hero-eyebrow" data-animate="up"><span class="eb-desk">Design Lounge · New York City · </span>Est. 2024<span class="eb-mob"> · NYC</span></p>
     <h1>
       <span class="line"><span data-hline>Where designers</span></span>
       <span class="line"><span class="script" data-hline>come together</span></span>
     </h1>
     <p class="hero-lede" data-animate="up">
-      A recurring happy hour for New York's UX, UI, product, and graphic designers —
-      Make new friends, expand your network, and collaborate on problems... all over a glass of wine or coffee in the heart of New York City.
+      A recurring happy hour for New York's UX, UI, product, and graphic designers — Make friends, find collaborators, and expand your network ... all over a glass of wine or coffee in the heart of New York City.
     </p>
     <div class="hero-actions" data-animate="up">
-      <a class="btn magnetic" href="https://www.meetup.com/designlounge/" target="_blank" rel="noopener"><span class="btn-inner">RSVP on Meetup ↗</span></a>
+      <a class="btn-next magnetic" href="https://www.meetup.com/designlounge/" target="_blank" rel="noopener">
+        <span class="bn-date">Next event</span>
+        <span class="bn-line" aria-hidden="true"></span>
+        <span class="bn-date">07.22.25</span>
+      </a>
     </div>
     <div class="hero-meta" data-animate="up">
       <span>1,300+ designers</span>
       <span>4.7★ on Meetup</span>
-      <span>Bar Hugo · NYC</span>
+      <span class="meta-venue">Bar Hugo · NYC</span>
     </div>
   </div>
-  <a class="scroll-cue" href="#events"><span class="track"></span> Scroll</a>
+  <a class="scroll-cue" href="#about"><span class="track"></span> Scroll</a>
 </header>
 
 <!-- ===================== MARQUEE ===================== -->
@@ -759,7 +806,7 @@ footer{ padding:80px 0 40px; border-top:1px solid var(--line-soft); }
 </div>
 
 <!-- ===================== EVENTS ===================== -->
-<section id="events">
+<section id="events" style="display:none">
   <div class="container">
     <div class="sec-head" data-animate="up">
       <span class="sec-kick">what we do</span>
@@ -898,11 +945,11 @@ footer{ padding:80px 0 40px; border-top:1px solid var(--line-soft); }
         <span class="sec-kick">about us</span>
         <h2>A lounge,<br>not a lecture</h2>
       </div>
-      <p data-animate="up">Design Lounge is a New York meetup for everyone working in design — UX, UI, product, graphic, and every other corner of digital design. We're 1,300 members strong!</p>
+      <p data-animate="up">Design Lounge is a New York meetup for all designers — UX, UI, product, graphic, and every other corner of digital design. We're 1,300 members strong!</p>
       <p data-animate="up">We believe the best career moves start as casual conversations. So we create a space that's warm, unhurried, and a little bit fancy.</p>
       <div class="stats" data-animate="up">
         <div class="stat"><span class="num" data-count="1300" data-suffix="+">0</span><span class="lbl">Members</span></div>
-        <div class="stat"><span class="num" data-count="4.7" data-suffix="★">0</span><span class="lbl">Rating · 117 reviews</span></div>
+        <div class="stat"><span class="num" data-count="4.7" data-suffix="★">0</span><span class="lbl">117 reviews</span></div>
         <div class="stat"><span class="num" data-count="1" data-suffix="">0</span><span class="lbl">Great city</span></div>
       </div>
     </div>
@@ -997,8 +1044,8 @@ footer{ padding:80px 0 40px; border-top:1px solid var(--line-soft); }
     <div class="cta-panel" data-animate="up">
       <span class="cta-spark" style="width:46px; top:14%; left:11%"><svg width="46"><use href="#spark"/></svg></span>
       <span class="cta-spark" style="width:30px; bottom:18%; right:13%"><svg width="30"><use href="#spark"/></svg></span>
-      <span class="sec-kick">we saved you a seat</span>
-      <h2>Join the lounge<span class="script">join the list</span></h2>
+      <span class="sec-kick">don't miss out</span>
+      <h2>Secure your spot<span class="script">join the list</span></h2>
       <p class="sub">Our happy hours fill up fast. Drop your email and we'll send the next invite the moment it's set — before it hits Meetup.</p>
       <form class="signup-form" novalidate>
         <input type="email" name="email" placeholder="you@studio.com" aria-label="Email address" required />
@@ -1019,7 +1066,6 @@ footer{ padding:80px 0 40px; border-top:1px solid var(--line-soft); }
         <a class="btn magnetic" href="https://www.meetup.com/designlounge/" target="_blank" rel="noopener"><span class="btn-inner">Join on Meetup ↗</span></a>
         <div class="foot-social">
           <a href="https://www.meetup.com/designlounge/" target="_blank" rel="noopener">Meetup</a>
-          <a href="#events">Events</a>
           <a href="#gallery">Gallery</a>
           <a href="#signup">Newsletter</a>
         </div>
@@ -1198,12 +1244,13 @@ if(navToggle) navToggle.addEventListener('click', toggleMenu);
     const suffix = el.dataset.suffix || '';
     const decimals = (raw.split('.')[1] || '').length;
     const fmt = (n)=> decimals > 0 ? n.toFixed(decimals) : Math.round(n).toLocaleString();
-    if(REDUCED){ el.textContent = fmt(target) + suffix; return; }
+    const sfx = suffix ? `<span class="num-suf${suffix==='★'?' star':''}">${suffix}</span>` : '';
+    if(REDUCED){ el.innerHTML = fmt(target) + sfx; return; }
     const dur = 1400; const t0 = performance.now();
     function frame(t){
       const p = Math.min(1, (t-t0)/dur);
       const eased = 1 - Math.pow(1-p, 3);
-      el.textContent = fmt(target*eased) + suffix;
+      el.innerHTML = fmt(target*eased) + sfx;
       if(p<1) requestAnimationFrame(frame);
     }
     requestAnimationFrame(frame);

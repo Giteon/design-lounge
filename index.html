@@ -198,12 +198,8 @@ body.cursor-on a, body.cursor-on button{ cursor:none; }
   border-bottom:1px solid var(--line-soft);
 }
 .nav-inner{ display:flex; align-items:center; justify-content:space-between; }
-.brand{ display:flex; align-items:center; gap:11px; }
-.brand svg{ display:block; color:var(--gold); }
-.brand-name{
-  font-family:var(--display); font-size:21px; font-weight:600;
-  letter-spacing:0.01em; color:var(--cream); white-space:nowrap;
-}
+.brand{ display:flex; align-items:center; }
+.brand-logo{ display:block; width:264px; max-width:none; height:auto; margin:-52px -36px; }
 .nav-links{ display:flex; align-items:center; gap:34px; }
 .nav-links a.nav-link{
   font-size:13px; letter-spacing:0.04em; color:var(--cream); opacity:0.78;
@@ -741,8 +737,7 @@ footer{ padding:80px 0 40px; border-top:1px solid var(--line-soft); }
 <nav class="nav" id="nav">
   <div class="container nav-inner">
     <a class="brand" href="#top" aria-label="Design Lounge — home" data-cursor>
-      <svg width="22" height="26"><use href="#martini"/></svg>
-      <span class="brand-name">Design Lounge</span>
+      <img class="brand-logo" src="images/dl-logo.png" alt="Design Lounge" />
     </a>
     <div class="nav-links">
       <a class="nav-link" href="#about">About</a>

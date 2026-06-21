@@ -15,6 +15,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Pinyon+Script&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
 <link rel="stylesheet" href="css/styles.css" />
+<link rel="icon" href="images/favicon.png" />
 </head>
 <body>
 
@@ -25,21 +26,16 @@
       <circle cx="2" cy="2" r="1.1" fill="currentColor" opacity="0.9"/>
       <circle cx="5.5" cy="5.5" r="0.9" fill="currentColor" opacity="0.7"/>
     </pattern>
-    <pattern id="stipple-fine" width="4.5" height="4.5" patternUnits="userSpaceOnUse">
-      <circle cx="1.4" cy="1.4" r="0.75" fill="currentColor" opacity="0.95"/>
-      <circle cx="3.4" cy="3.6" r="0.6" fill="currentColor" opacity="0.7"/>
-    </pattern>
     <symbol id="spark" viewBox="0 0 100 100">
       <path fill="currentColor" d="M50 2 L57 36 L86 14 L63 44 L98 50 L63 56 L86 86 L57 64 L50 98 L43 64 L14 86 L37 56 L2 50 L37 44 L14 14 L43 36 Z"/>
     </symbol>
-    <symbol id="martini" viewBox="0 0 48 56" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M9.5 12.5 C18 15 30 15 38.5 12.5 C33.5 18.5 28.5 23.5 24.3 27.5 C20 23.5 14.5 18.5 9.5 12.5 Z" fill="url(#stipple-fine)" stroke="none"/>
-      <path d="M5 7.5 C17.5 10.6 30.5 10.6 43 7.5"/>
-      <path d="M5 7.5 C11 15.5 18.2 22.8 24.3 28.6 L24.3 46"/>
-      <path d="M43 7.5 C37 15.5 30.4 22.8 24.3 28.6"/>
-      <path d="M14.5 47.6 C20.5 46 28 46 33.5 47.6"/>
-      <circle cx="19.5" cy="14.8" r="3.1" fill="currentColor" stroke="none"/>
-      <path d="M19.5 11.5 L26.5 5"/>
+    <symbol id="ig" viewBox="0 0 24 24">
+      <rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5.4" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="17.4" cy="6.6" r="1.25" fill="currentColor"/>
+    </symbol>
+    <symbol id="li" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.76-1.95 4.02 0 4.76 2.5 4.76 5.76V21h-4v-5.3c0-1.27-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21H9z"/>
     </symbol>
   </defs>
 </svg>
@@ -69,8 +65,8 @@
       <a class="nav-link" href="#voices">Voices</a>
       <a class="btn magnetic" href="#signup"><span class="btn-inner">Get the invite</span></a>
       <span class="nav-social">
-        <a class="social-ico" href="https://www.instagram.com/designlounge.nyc/" target="_blank" rel="noopener" aria-label="Design Lounge on Instagram"><svg viewBox="0 0 24 24" width="19" height="19"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5.4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="17.4" cy="6.6" r="1.25" fill="currentColor"/></svg></a>
-        <a class="social-ico" href="https://www.linkedin.com/company/design-lounge-nyc" target="_blank" rel="noopener" aria-label="Design Lounge on LinkedIn"><svg viewBox="0 0 24 24" width="19" height="19"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.76-1.95 4.02 0 4.76 2.5 4.76 5.76V21h-4v-5.3c0-1.27-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21H9z"/></svg></a>
+        <a class="social-ico" href="https://www.instagram.com/designlounge.nyc/" target="_blank" rel="noopener" aria-label="Design Lounge on Instagram"><svg width="19" height="19"><use href="#ig"/></svg></a>
+        <a class="social-ico" href="https://www.linkedin.com/company/design-lounge-nyc" target="_blank" rel="noopener" aria-label="Design Lounge on LinkedIn"><svg width="19" height="19"><use href="#li"/></svg></a>
       </span>
     </div>
     <button class="nav-toggle" id="navToggle" aria-label="Open menu"><span></span><span></span></button>
@@ -85,8 +81,8 @@
   <a href="#voices"><span class="idx">04</span>Voices</a>
   <a href="#signup"><span class="idx">05</span>Get the invite</a>
   <div class="menu-social">
-    <a class="social-ico" href="https://www.instagram.com/designlounge.nyc/" target="_blank" rel="noopener" aria-label="Design Lounge on Instagram"><svg viewBox="0 0 24 24" width="26" height="26"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5.4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="17.4" cy="6.6" r="1.25" fill="currentColor"/></svg></a>
-    <a class="social-ico" href="https://www.linkedin.com/company/design-lounge-nyc" target="_blank" rel="noopener" aria-label="Design Lounge on LinkedIn"><svg viewBox="0 0 24 24" width="26" height="26"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.76-1.95 4.02 0 4.76 2.5 4.76 5.76V21h-4v-5.3c0-1.27-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21H9z"/></svg></a>
+    <a class="social-ico" href="https://www.instagram.com/designlounge.nyc/" target="_blank" rel="noopener" aria-label="Design Lounge on Instagram"><svg width="26" height="26"><use href="#ig"/></svg></a>
+    <a class="social-ico" href="https://www.linkedin.com/company/design-lounge-nyc" target="_blank" rel="noopener" aria-label="Design Lounge on LinkedIn"><svg width="26" height="26"><use href="#li"/></svg></a>
   </div>
   <p class="menu-foot">Made with love in NYC</p>
 </div>
@@ -164,7 +160,7 @@
             <ul>
               <li>Recurring evenings at Bar Hugo &amp; Azul at Hotel Hugo</li>
               <li>All digital designers — plus a few friendly recruiters</li>
-              <li>Fun icebreakers and good conversation/li>
+              <li>Fun icebreakers and good conversation</li>
             </ul>
           </div>
         </div></div></div>
@@ -398,8 +394,8 @@
           <a href="https://www.meetup.com/designlounge/" target="_blank" rel="noopener">Meetup</a>
           <a href="#gallery">Gallery</a>
           <a href="#signup">Newsletter</a>
-          <a class="social-ico" href="https://www.instagram.com/designlounge.nyc/" target="_blank" rel="noopener" aria-label="Design Lounge on Instagram"><svg viewBox="0 0 24 24" width="18" height="18"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5.4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="17.4" cy="6.6" r="1.25" fill="currentColor"/></svg></a>
-          <a class="social-ico" href="https://www.linkedin.com/company/design-lounge-nyc" target="_blank" rel="noopener" aria-label="Design Lounge on LinkedIn"><svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.76-1.95 4.02 0 4.76 2.5 4.76 5.76V21h-4v-5.3c0-1.27-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21H9z"/></svg></a>
+          <a class="social-ico" href="https://www.instagram.com/designlounge.nyc/" target="_blank" rel="noopener" aria-label="Design Lounge on Instagram"><svg width="18" height="18"><use href="#ig"/></svg></a>
+          <a class="social-ico" href="https://www.linkedin.com/company/design-lounge-nyc" target="_blank" rel="noopener" aria-label="Design Lounge on LinkedIn"><svg width="18" height="18"><use href="#li"/></svg></a>
         </div>
       </div>
     </div>

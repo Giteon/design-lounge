@@ -63,7 +63,7 @@ if(typeof window.Lenis !== 'undefined' && !REDUCED){
     requestAnimationFrame(raf);
   }
 }
-function scrollTo(target){
+function smoothScrollTo(target){
   const el = typeof target==='string' ? document.querySelector(target) : target;
   if(!el) return;
   if(lenis) lenis.scrollTo(el, { offset:0 });
@@ -79,7 +79,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
     if(!el) return;
     e.preventDefault();
     closeMenu();
-    scrollTo(el);
+    smoothScrollTo(el);
   });
 });
 
@@ -289,7 +289,7 @@ if(navToggle) navToggle.addEventListener('click', toggleMenu);
 
 /* ---------- Back to top ---------- */
 const toTop = document.getElementById('toTop');
-if(toTop) toTop.addEventListener('click', ()=> scrollTo('#top'));
+if(toTop) toTop.addEventListener('click', ()=> smoothScrollTo('#top'));
 
 /* ============================================================
    THREE.JS — champagne / candlelight particles

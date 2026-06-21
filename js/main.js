@@ -14,33 +14,49 @@ const hasST = hasGSAP && typeof window.ScrollTrigger !== 'undefined';
   const count = document.getElementById('preCount');
   if(!pre){ introAnimation(); return; }
 
-  let done = false, tick = null;
+  let done = false, raf = null;
   function finish(){
     if(done) return;
     done = true;
-    if(tick) clearInterval(tick);
+    if(raf) cancelAnimationFrame(raf);
     if(bar) bar.style.width = '100%';
     if(count) count.textContent = '100';
     // Lift the curtain (CSS transition) and reveal the hero (CSS via .ready).
     // setTimeout fires even when the tab/RAF is throttled, so this never gets stuck.
     pre.classList.add('hide');
-    setTimeout(introAnimation, 300);
-    setTimeout(()=>{ pre.style.display = 'none'; }, 950);
+    setTimeout(introAnimation, 450);
+    setTimeout(()=>{ pre.style.display = 'none'; }, 1250);
   }
 
   if(REDUCED){ pre.style.display='none'; introAnimation(); return; }
 
-  let p = 0;
-  tick = setInterval(()=>{
-    p = Math.min(100, p + Math.random()*14 + 9);
-    if(bar) bar.style.width = p + '%';
-    if(count) count.textContent = Math.floor(p);
-    if(p >= 100){ clearInterval(tick); tick = null; setTimeout(finish, 170); }
-  }, 95);
+  // Smooth lerp-toward-target progress. The target eases up to a soft cap while
+  // the page is still loading, then releases to 100 once load fires. Each frame
+  // the shown value glides a fraction of the way toward the target, so the bar
+  // decelerates naturally and never jumps.
+  let shown = 0, loaded = false;
+  const start = performance.now();
+  const SOFT_CAP = 90;   // hold here until the real load completes
+  const RAMP = 2000;     // ms to ease the target up to the soft cap
+  const easeOutCubic = (t)=> 1 - Math.pow(1 - t, 3);
 
-  // safety nets — whichever fires first wins, finish() is idempotent
-  window.addEventListener('load', ()=> setTimeout(finish, 140));
-  setTimeout(finish, 2400);
+  function frame(now){
+    const t = Math.min(1, (now - start) / RAMP);
+    const target = loaded ? 100 : easeOutCubic(t) * SOFT_CAP;
+    shown += (target - shown) * 0.085;
+    if(loaded && target - shown < 0.4) shown = 100;
+    if(bar) bar.style.width = shown + '%';
+    if(count) count.textContent = Math.floor(shown);
+    if(shown >= 99.5){ finish(); return; }
+    raf = requestAnimationFrame(frame);
+  }
+  raf = requestAnimationFrame(frame);
+
+  // release the bar to 100 once everything has loaded
+  window.addEventListener('load', ()=> setTimeout(()=>{ loaded = true; }, 200));
+  // safety nets — setTimeout fires even when RAF is throttled, finish() is idempotent
+  setTimeout(()=>{ loaded = true; }, 3000);
+  setTimeout(finish, 4500);
 })();
 
 /* ---------- Hero intro (CSS-driven; runs exactly once) ---------- */
